@@ -49,7 +49,7 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec konsole 
 
 # kill focused window
 bindsym $mod+q kill
@@ -192,7 +192,7 @@ bindsym $mod+r mode "resize"
 exec_always --no-startup-id polybar 
 
 exec --no-startup-id nitrogen --restore &
-exec --no-startup-id picom
-#exec --no-startup-id xrandr --dpi 120
+exec --no-startup-id picom --config ~/.config/picom/picom.conf
+exec --no-startup-id xrandr --dpi 120
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
