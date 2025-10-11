@@ -3,7 +3,6 @@ brightnessctl
 bzip2
 zip
 unzip
-clamav
 curl
 git
 gh
@@ -15,5 +14,5 @@ nitrogen
 nitrogen-lang
 picom
 polybar
-tmux
 neovim
+redshift
