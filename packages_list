@@ -1,4 +1,3 @@
-bless
 brightnessctl
 bzip2
 zip
@@ -16,4 +15,3 @@ picom
 polybar
 neovim
 fzf
-redshift
