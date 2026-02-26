@@ -6,7 +6,7 @@ set nocompatible
 filetype plugin indent on
 syntax on
 
-" Disable mouse 
+" Disable mouse
 set mouse=
 
 " Make terminal Vim transparent
@@ -40,83 +40,6 @@ set history=1000
 
 
 "--------------------------------------------------------
-" Searching
-"--------------------------------------------------------
-set ignorecase
-set smartcase
-set incsearch
-set hlsearch
-
-" Use ripgrep if available
-if executable('rg')
-  set grepprg=rg\ --vimgrep
-endif
-
-
-"--------------------------------------------------------
-" Tabs & Indentation
-"--------------------------------------------------------
-set expandtab        " Off for kernel style, but set explicitly
-set noexpandtab
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
-set smarttab
-set autoindent
-set cindent
-set cinoptions=:0,l1,t0,g0,(0,W4
-set textwidth=80
-set colorcolumn=81
-set formatoptions=croql
-
-
-"--------------------------------------------------------
-" C/C++ Specific Settings
-"--------------------------------------------------------
-augroup cdev
-  autocmd!
-  autocmd FileType c,cpp setlocal makeprg=make
-  autocmd FileType c,cpp setlocal cindent
-  autocmd FileType c,cpp setlocal formatoptions=croql
-augroup END
-
-
-"--------------------------------------------------------
-" Code Navigation (ctags + cscope)
-"--------------------------------------------------------
-if has("cscope")
-  set cscopetag
-  set cscopeverbose
-  set csto=1
-  set cscopequickfix=s-,c-,d-,i-,t-,e-
-  set cscopeprg=cscope
-  if filereadable("cscope.out")
-    cs add cscope.out
-  endif
-endif
-
-nnoremap <leader>ct :!ctags -R --languages=C --exclude=.git .<CR>
-nnoremap <leader>cs :!cscope -Rbq<CR>
-
-
-"--------------------------------------------------------
-" LSP / Clangd Integration
-"--------------------------------------------------------
-if executable('clangd')
-  " Using vim-lsp or ALE
-  " packadd vim-lsp
-  augroup lsp_setup
-    autocmd!
-    autocmd User lsp_setup call lsp#register_server({
-          \ 'name': 'clangd',
-          \ 'cmd': ['clangd'],
-          \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
-          \ })
-  augroup END
-endif
-
-
-"--------------------------------------------------------
 " Mappings
 "--------------------------------------------------------
 let mapleader = ","
@@ -124,15 +47,13 @@ let mapleader = ","
 " Quick navigation
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
-nnoremap <leader>m :make<CR>
-nnoremap <leader>g :grep! <C-R><C-W><CR>:cw<CR>
 
 " Toggle highlight
 nnoremap <leader>h :set hlsearch!<CR>
 
 
 "--------------------------------------------------------
-" Plugin Setup 
+" Plugin Setup
 "--------------------------------------------------------
 
 call plug#begin('~/.vim/plugged')
@@ -145,9 +66,6 @@ Plug 'preservim/nerdtree'
 
 Plug 'tpope/vim-fugitive'
 " Git integration
-
-Plug 'prabirshrestha/vim-lsp'
-" Language Server Protocol client
 
 Plug 'vim-airline/vim-airline'
 " Status bar
@@ -167,3 +85,27 @@ nnoremap <leader>t :TagbarToggle<CR>
 set laststatus=2
 set statusline=%f%m%r%h%w\ [%{&ff}]\ [POS=%04l,%04v]\ [%p%%]\ [%Y]
 
+" ============================
+" Go: Autocompletion (ALE)
+" ============================
+let g:ale_completion_enabled = 1
+set completeopt=menu,menuone,noselect
+
+" ============================
+" Go: Linting
+" ============================
+let g:ale_linters = {
+\   'go': ['gopls', 'golangci-lint', 'govet'],
+\}
+
+" Run linting only on save (optional)
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_save = 1
+
+" ============================
+" Go: Formatting
+" ============================
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   'go': ['gofmt', 'goimports'],
+\}
